@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        table {
+            width: 300px;
+            height: 300px;
+            border-spacing: 0;
+            border: 1px solid #333;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+        }
+
+        td {
+            border: 1px solid #333;
+            width: 100px;
+            height: 100px;
+            font-size: 40px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+
+        }
+
+        td:hover {
+            transform: scale(1.05);
+            background-color: whitesmoke;
+        }
+
+        p {
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <table></table>
+    <div>
+        <p id="text"></p>
+    </div>
+
+
+    <script>
+        let count = 0
+        let qalib = 0
+        let change = true
+        for (let i = 1; i < 4; i++) {
+            $("table").append(`<tr id="row${i}"></tr>`)
+            for (j = 1; j < 4; j++) {
+                $("table tr:last").append(`<td id="p${i}${j}"></td>`)
+            }
+        }
+
+        for (i = 1; i < 4; i++) {
+            for (j = 1; j < 4; j++) {
+                $(`table #p${i}${j}`)
+                    .click(function () {
+                        if (change == true && $(this).html() == '') {
+                            count++;
+                            if (count % 2) {
+                                $(this).html(`X`);
+                                $("#text").html("Player O's turn")
+                            }
+                            else { $(this).html(`O`); $("#text").html("Player X's turn") }
+                            check()
+                            if (qalib == 1) { $("#text").html((`Player ${$(this).html()} wins`)); change = false; }
+                        }
+                    })
+            }
+        }
+
+        function check() {
+
+            if (($("#p11").html() === $("#p12").html() && $("#p12").html() === $("#p13").html() && $("#p11").html() !== '') ||
+                ($("#p21").html() === $("#p22").html() && $("#p22").html() === $("#p23").html() && $("#p21").html() !== '') ||
+                ($("#p31").html() === $("#p32").html() && $("#p32").html() === $("#p33").html() && $("#p31").html() !== '') ||
+                ($("#p11").html() === $("#p21").html() && $("#p21").html() === $("#p31").html() && $("#p31").html() !== '') ||
+                ($("#p12").html() === $("#p22").html() && $("#p22").html() === $("#p32").html() && $("#p12").html() !== '') ||
+                ($("#p13").html() === $("#p23").html() && $("#p23").html() === $("#p33").html() && $("#p13").html() !== '') ||
+                ($("#p11").html() === $("#p22").html() && $("#p22").html() === $("#p33").html() && $("#p11").html() !== '') ||
+                ($("#p31").html() === $("#p22").html() && $("#p22").html() === $("#p13").html() && $("#p31").html() !== '')
+            ) {
+                qalib = 1
+            }
+            if (qalib == 0 && count == 9) $("#text").html("It's a tie!")
+        }
+
+
+    </script>
+</body>
+
+</html>
